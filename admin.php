@@ -8,11 +8,12 @@ if(!isset($_SESSION['username'])){
 <html>
 <head>
 	<title>Admin Panel</title>
-	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+	<?php include('top.inc.php'); ?>
 </head>
 <body>
 <div class="container">
+	<h1>Welcome To Admin Panel.</h1>
+	<p>Hello <?php echo $_SESSION['username'];?> !!! <a href="logout.php">Log Out</a></p>
+</div>
 </body>
 </html>

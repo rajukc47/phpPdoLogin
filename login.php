@@ -8,7 +8,33 @@ $message = "";
 
 try
 {
+	$connect=new PDO("mysql:host=".HOSTNAME.";dbname=".DBNAME,USERNAME,PASSWORD);
+	$connect->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
+	if(isset($_POST['login']))
+	{
+		$uname=$_POST['username'];
+		$pword=$_POST['password'];
+
+		if(empty($uname) || empty($pword))
+		{
+			$message="All Fields Are Required!";
+		}
+		else
+		{
+			$query="SELECT * FROM tbl_user WHERE username=:username AND password=:password";
+			$stmt=$connect->prepare($query);
+			$stmt->execute(array('username'=>$uname,'password'=>$pword));
+			$count=$stmt->rowCount();
+			if($count>0){
+				$_SESSION['username']=$uname;
+				header("location:admin.php");
+			}
+			else{
+				$message="Invalid Username or Password!";
+			}
+		}
+	}
 }
 catch(PDOException $e)
 {
@@ -20,13 +46,14 @@ catch(PDOException $e)
 <html>
 <head>
 	<title>Login Form</title>
-	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+	<?php include('top.inc.php'); ?>
 </head>
 <body>
 <div class="container" style="width: 500px;">
 	<h1>Login Form</h1>
+	<?php
+		echo isset($message)?"<p class='text-danger'>$message</p>":'';
+	?>
 	<form method="post">
 		<label>Username </label>
 		<input type="text" name="username" class="form-control"><br />

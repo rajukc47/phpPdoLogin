@@ -4,7 +4,7 @@ define('HOSTNAME','localhost');
 define('USERNAME','root');
 define('PASSWORD','');
 define('DBNAME','db_test');
-$message = "";
+$message = null;
 
 try
 {
@@ -52,7 +52,7 @@ catch(PDOException $e)
 <div class="container" style="width: 500px;">
 	<h1>Login Form</h1>
 	<?php
-		echo isset($message)?"<p class='text-danger'>$message</p>":'';
+		echo isset($message)?"<p class='alert alert-danger'>$message</p>":'';
 	?>
 	<form method="post">
 		<label>Username </label>
